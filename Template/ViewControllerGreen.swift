@@ -8,21 +8,39 @@
 
 import UIKit
 
-class ViewControllerGreen: UIViewController {
+class ViewControllerGreen: UIViewController {    
+    let greenView = ViewUtils.prepare(UIView()) {
+        $0.backgroundColor = .green
+    }
+    
     override func viewDidLoad() {
         view.backgroundColor = .yellow
         
-        let v = ViewUtils.prepare(UIView()) {
-            $0.backgroundColor = .green
+        view.addSubview(greenView)
+        
+        let b = ViewUtils.prepare(UIButton()) {
+            $0.setTitle("Dismiss", for: .normal)
+            $0.setTitleColor(.darkText, for: .normal)
         }
         
-        view.addSubview(v)
+        view.addSubview(b)
         
         🚧.activate([
-            v.topAnchor.constraint(equalTo: view.topAnchor),
-            v.leftAnchor.constraint(equalTo: view.leftAnchor),
-            v.rightAnchor.constraint(equalTo: view.rightAnchor),
-            v.heightAnchor.constraint(equalToConstant: 200),
+            greenView.topAnchor.constraint(equalTo: view.topAnchor),
+            greenView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            greenView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            greenView.heightAnchor.constraint(equalToConstant: 200),
+            
+            b.topAnchor.constraint(equalTo: greenView.bottomAnchor),
+            b.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
+        
+        b.addTarget(self, action: #selector(doDismiss), for: .touchUpInside)
     }
+    
+    @objc func doDismiss() {
+        dismiss(animated: false, completion: nil)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle { .darkContent }
 }
