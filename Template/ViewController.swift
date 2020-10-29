@@ -15,6 +15,7 @@ class ViewControllerRed: UIViewController {
         let b = ViewUtils.prepare(UIButton()) {
             $0.setTitle("Animate!", for: .normal)
             $0.setTitleColor(.darkText, for: .normal)
+            $0.addTarget(self, action: #selector(self.animateToGreen), for: .touchUpInside)
         }
         
         view.addSubview(b)
@@ -32,5 +33,9 @@ class ViewControllerRed: UIViewController {
         
         super.viewDidLoad()
     }
+    
+    @objc func animateToGreen() {
+        let greenvc = ViewControllerGreen()
+        present(greenvc, animated: true, completion: nil)
+    }
 }
-
