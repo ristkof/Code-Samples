@@ -38,6 +38,7 @@ class ViewControllerRed: UIViewController {
         let greenvc = ViewControllerGreen()
         greenvc.transitioningDelegate = self
         greenvc.modalPresentationStyle = .custom
+        greenvc.modalPresentationCapturesStatusBarAppearance = true
         present(greenvc, animated: true, completion: nil)
     }
 }

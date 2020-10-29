@@ -42,5 +42,6 @@ class ViewControllerGreen: UIViewController {
         dismiss(animated: false, completion: nil)
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle { .darkContent }
+    override var prefersStatusBarHidden: Bool { true }
+//    override var preferredStatusBarStyle: UIStatusBarStyle { .darkContent }
 }
