@@ -39,6 +39,7 @@ class GreenAnimationController: NSObject & UIViewControllerAnimatedTransitioning
         } completion: { _ in
             self.redView.isHidden = false
             toVC.view.isHidden = false
+            v.removeFromSuperview()
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }

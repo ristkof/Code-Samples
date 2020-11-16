@@ -39,7 +39,7 @@ class ViewControllerGreen: UIViewController {
     }
     
     @objc func doDismiss() {
-        dismiss(animated: false, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     override var prefersStatusBarHidden: Bool { true }
