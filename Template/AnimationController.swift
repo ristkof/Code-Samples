@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GreenAnimationController: NSObject & UIViewControllerAnimatedTransitioning {
+class AnimationController: NSObject & UIViewControllerAnimatedTransitioning {
     let redView: UIView
     
     init(_ rv: UIView) {
@@ -23,9 +23,9 @@ class GreenAnimationController: NSObject & UIViewControllerAnimatedTransitioning
         let containerView = transitionContext.containerView
 
         redView.isHidden = true
-        let v = UIView(frame: redView.frame)
-        v.backgroundColor = .red
-        containerView.addSubview(v)
+        let animatingSquareView = UIView(frame: redView.frame)
+        animatingSquareView.backgroundColor = .red
+        containerView.addSubview(animatingSquareView)
         let toVC = transitionContext.viewController(forKey: .to) as! ViewControllerGreen
         containerView.addSubview(toVC.view)
         toVC.view.layoutIfNeeded()
@@ -34,12 +34,12 @@ class GreenAnimationController: NSObject & UIViewControllerAnimatedTransitioning
         let duration = transitionDuration(using: transitionContext)
 
         UIView.animate(withDuration: duration) {
-            v.backgroundColor = UIColor.green
-            v.frame = toVC.greenView.frame
+            animatingSquareView.backgroundColor = UIColor.green
+            animatingSquareView.frame = toVC.greenView.frame
         } completion: { _ in
             self.redView.isHidden = false
             toVC.view.isHidden = false
-            v.removeFromSuperview()
+            animatingSquareView.removeFromSuperview()
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
