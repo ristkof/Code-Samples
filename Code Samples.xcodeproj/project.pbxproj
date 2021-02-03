@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6DBF05B42450A60B00F6B349 /* Template.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Template.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DBF05B42450A60B00F6B349 /* Code Samples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Code Samples.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DBF05B72450A60B00F6B349 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DBF05B92450A60B00F6B349 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6DBF05BB2450A60B00F6B349 /* ViewControllerRed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerRed.swift; sourceTree = "<group>"; };
@@ -46,7 +46,7 @@
 		6DBF05AB2450A60B00F6B349 = {
 			isa = PBXGroup;
 			children = (
-				6DBF05B62450A60B00F6B349 /* Template */,
+				6DBF05B62450A60B00F6B349 /* Source */,
 				6DBF05B52450A60B00F6B349 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,12 +54,12 @@
 		6DBF05B52450A60B00F6B349 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6DBF05B42450A60B00F6B349 /* Template.app */,
+				6DBF05B42450A60B00F6B349 /* Code Samples.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6DBF05B62450A60B00F6B349 /* Template */ = {
+		6DBF05B62450A60B00F6B349 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				6DBF05B72450A60B00F6B349 /* AppDelegate.swift */,
@@ -73,15 +73,15 @@
 				6DF3F364254ACDDA00B81AB4 /* ViewControllerGreen.swift */,
 				6DF3F36A254AD1B300B81AB4 /* AnimationController.swift */,
 			);
-			path = Template;
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6DBF05B32450A60B00F6B349 /* Template */ = {
+		6DBF05B32450A60B00F6B349 /* Code Samples */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6DBF05C82450A60B00F6B349 /* Build configuration list for PBXNativeTarget "Template" */;
+			buildConfigurationList = 6DBF05C82450A60B00F6B349 /* Build configuration list for PBXNativeTarget "Code Samples" */;
 			buildPhases = (
 				6DBF05B02450A60B00F6B349 /* Sources */,
 				6DBF05B12450A60B00F6B349 /* Frameworks */,
@@ -91,9 +91,9 @@
 			);
 			dependencies = (
 			);
-			name = Template;
-			productName = Template;
-			productReference = 6DBF05B42450A60B00F6B349 /* Template.app */;
+			name = "Code Samples";
+			productName = "Code Samples";
+			productReference = 6DBF05B42450A60B00F6B349 /* Code Samples.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -111,7 +111,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6DBF05AF2450A60B00F6B349 /* Build configuration list for PBXProject "Template" */;
+			buildConfigurationList = 6DBF05AF2450A60B00F6B349 /* Build configuration list for PBXProject "Code Samples" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -124,7 +124,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6DBF05B32450A60B00F6B349 /* Template */,
+				6DBF05B32450A60B00F6B349 /* Code Samples */,
 			);
 		};
 /* End PBXProject section */
@@ -290,12 +290,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TYFAG82Z8R;
-				INFOPLIST_FILE = Template/Info.plist;
+				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = be.ristkof.Template;
+				PRODUCT_BUNDLE_IDENTIFIER = be.ristkof.codesamples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -308,12 +308,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TYFAG82Z8R;
-				INFOPLIST_FILE = Template/Info.plist;
+				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = be.ristkof.Template;
+				PRODUCT_BUNDLE_IDENTIFIER = be.ristkof.codesamples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -323,7 +323,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6DBF05AF2450A60B00F6B349 /* Build configuration list for PBXProject "Template" */ = {
+		6DBF05AF2450A60B00F6B349 /* Build configuration list for PBXProject "Code Samples" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6DBF05C62450A60B00F6B349 /* Debug */,
@@ -332,7 +332,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6DBF05C82450A60B00F6B349 /* Build configuration list for PBXNativeTarget "Template" */ = {
+		6DBF05C82450A60B00F6B349 /* Build configuration list for PBXNativeTarget "Code Samples" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6DBF05C92450A60B00F6B349 /* Debug */,

@@ -35,10 +35,10 @@ class ViewControllerGreen: UIViewController {
             b.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
         
-        b.addTarget(self, action: #selector(doDismiss), for: .touchUpInside)
+        b.addTarget(self, action: #selector(actionDismiss), for: .touchUpInside)
     }
     
-    @objc func doDismiss() {
+    @objc func actionDismiss() {
         dismiss(animated: true, completion: nil)
     }
     
