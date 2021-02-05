@@ -8,9 +8,22 @@
 
 import UIKit
 
-class ViewControllerGreen: UIViewController {    
-    let greenView = ViewUtils.prepare(UIView()) {
+class ViewControllerGreen: UIViewController {
+    
+    lazy var interactionController = SwipeInteractionController(viewController: self)
+    
+    lazy var greenView = ViewUtils.prepare(UIView()) {
         $0.backgroundColor = .green
+        
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:)))
+        $0.addGestureRecognizer(panGestureRecognizer)
+        
+        $0.isUserInteractionEnabled = true
+    }
+    
+    @objc func pan(_ pgr: UIPanGestureRecognizer) {
+        interactionController.handleGesture(pgr)
+        NSLog("pan")
     }
     
     override func viewDidLoad() {

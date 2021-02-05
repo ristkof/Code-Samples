@@ -45,6 +45,13 @@ class ViewControllerRed: UIViewController {
 
 extension ViewControllerRed: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        AnimationController(redView)
+        AnimationControllerPresentRedToGreen(redView)
+    }
+
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if dismissed is ViewControllerGreen {
+            return AnimationControllerDismissGreenToRed()
+        }
+        return nil
     }
 }
