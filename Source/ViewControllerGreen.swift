@@ -23,7 +23,6 @@ class ViewControllerGreen: UIViewController {
     
     @objc func pan(_ pgr: UIPanGestureRecognizer) {
         interactionController.handleGesture(pgr)
-        NSLog("pan")
     }
     
     override func viewDidLoad() {
