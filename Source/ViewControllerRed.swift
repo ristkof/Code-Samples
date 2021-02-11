@@ -49,6 +49,7 @@ extension ViewControllerRed: UIViewControllerTransitioningDelegate {
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        NSLog("\(Self.description()) \(#function)")
         if let d = dismissed as? ViewControllerGreen {
             return d.interactionController
         }
@@ -56,6 +57,7 @@ extension ViewControllerRed: UIViewControllerTransitioningDelegate {
     }
 
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        animator as? UIViewControllerInteractiveTransitioning
+        NSLog("\(Self.description()) \(#function)")
+        return animator as? UIViewControllerInteractiveTransitioning
     }
 }

@@ -9,16 +9,9 @@
 import UIKit
 
 /// GreenToRedInterruptableController
-///
-/// Partly based on GuessThePet code on github here https://github.com/xuzhengquan/GuessThePet
-/// the original code works but was quite chunky in its animations and has no explanations
-/// Partly based on PullToDismissTransition by Ben Guild, but that worked only interactively
-/// and we want to have interactive **and** programmatic (triggered from button)
 class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, UIViewControllerInteractiveTransitioning, UIViewControllerAnimatedTransitioning
 {
     private var transitionContext: UIViewControllerContextTransitioning?
-    private var shouldCompleteTransition = false
-    private var _wantsInteractiveStart = false
     private weak var viewController: UIViewController?
     private var animator: UIViewPropertyAnimator?
     lazy var panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handleGesture(_:)))
@@ -27,6 +20,10 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
         viewController = vc
         super.init()
         panGestureRecognizer.delegate = self
+    }
+    
+    deinit {
+        NSLog("\(Self.description()) \(#function)")
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -49,20 +46,16 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
         case .began:
             NSLog("gestureRecognizer began")
             viewController?.dismiss(animated: true, completion: nil)
-            _wantsInteractiveStart = true
         case .changed:
             animator!.pauseAnimation()
             NSLog("gestureRecognizer changed \(progress)")
-            shouldCompleteTransition = progress > 0.5
             animator!.fractionComplete = progress
         case .cancelled:
             NSLog("gestureRecognizer cancelled")
             transitionContext!.cancelInteractiveTransition()
-            _wantsInteractiveStart = false
         case .ended:
-            animator!.continueAnimation(withTimingParameters: nil, durationFactor: 2)
+            animator!.continueAnimation(withTimingParameters: nil, durationFactor: 0)
             transitionContext!.finishInteractiveTransition()
-            _wantsInteractiveStart = false
             NSLog("gestureRecognizer ended")
         default:
             break
@@ -73,48 +66,37 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
         NSLog("\(Self.description()) \(#function)")
         return 2
     }
-
-    private func createAnimationIfItDoesNotExistYet(_ transitionContext: UIViewControllerContextTransitioning) {
-        if animator == nil {
-            let greenVC = transitionContext.viewController(forKey: .from) as! ViewControllerGreen
-            let redNC = transitionContext.viewController(forKey: .to) as! UINavigationController
-            guard let redVC = (redNC.viewControllers.compactMap { $0 as? ViewControllerRed }.first) else { return }
-            let v = greenVC.greenView
-            transitionContext.containerView.addSubview(v)
-            v.constraints.forEach { $0.isActive = false }
-            v.translatesAutoresizingMaskIntoConstraints = true
-            animator = UIViewPropertyAnimator(duration: 2, curve: .easeInOut) {
-                v.frame = redVC.redView.frame
-                v.backgroundColor = redVC.redView.backgroundColor
-            }
-            animator!.addCompletion { [weak transitionContext] position in
-                let completed = (position == .end)
-                transitionContext?.completeTransition(completed)
-                v.removeFromSuperview()
-            }
-            animator!.startAnimation()
-        }
-    }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         NSLog("\(Self.description()) \(#function)")
-        self.transitionContext = transitionContext
-        createAnimationIfItDoesNotExistYet(transitionContext)
+        do {}   // nothing to do here
     }
 
     func interruptibleAnimator(using transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
         NSLog("\(Self.description()) \(#function)")
         self.transitionContext = transitionContext
-        createAnimationIfItDoesNotExistYet(transitionContext)
+        let greenVC = transitionContext.viewController(forKey: .from) as! ViewControllerGreen
+        let redNC = transitionContext.viewController(forKey: .to) as! UINavigationController
+        let redVC = redNC.viewControllers.compactMap { $0 as? ViewControllerRed }.first!
+        let v = greenVC.greenView
+        transitionContext.containerView.addSubview(v)
+        v.constraints.forEach { $0.isActive = false }
+        v.translatesAutoresizingMaskIntoConstraints = true
+        animator = UIViewPropertyAnimator(duration: 2, curve: .easeInOut) {
+            v.frame = redVC.redView.frame
+            v.backgroundColor = redVC.redView.backgroundColor
+        }
+        animator!.addCompletion { position in
+            let completed = (position == .end)
+            transitionContext.completeTransition(completed)
+            v.removeFromSuperview()
+        }
+        animator!.startAnimation()
         return animator!
     }
 
     func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
         NSLog("\(Self.description()) \(#function)")
-    }
-    
-    var wantsInteractiveStart: Bool {
-        NSLog("\(Self.description()) \(#function) - returning \(false)")
-        return false
+        do {}   // nothing to do here
     }
 }
