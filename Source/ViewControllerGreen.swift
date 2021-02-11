@@ -7,22 +7,20 @@
 //
 
 import UIKit
+import AVKit
 
-class ViewControllerGreen: UIViewController {
+class ViewControllerGreen: UIViewController, UIGestureRecognizerDelegate {
     
-    lazy var interactionController = SwipeInteractionController(viewController: self)
+    lazy var interactionController = GreenToRedInterruptableController(self)
     
     lazy var greenView = ViewUtils.prepare(UIView()) {
         $0.backgroundColor = .green
-        
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:)))
-        $0.addGestureRecognizer(panGestureRecognizer)
-        
+        $0.addGestureRecognizer(self.interactionController.panGestureRecognizer)
         $0.isUserInteractionEnabled = true
     }
     
-    @objc func pan(_ pgr: UIPanGestureRecognizer) {
-        interactionController.handleGesture(pgr)
+    deinit {
+        NSLog("\(Self.description()) \(#function)")
     }
     
     override func viewDidLoad() {
@@ -53,7 +51,7 @@ class ViewControllerGreen: UIViewController {
     @objc func actionDismiss() {
         dismiss(animated: true, completion: nil)
     }
-    
+        
     override var prefersStatusBarHidden: Bool { true }
 //    override var preferredStatusBarStyle: UIStatusBarStyle { .darkContent }
 }
