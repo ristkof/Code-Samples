@@ -51,6 +51,7 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
             viewController?.dismiss(animated: true, completion: nil)
             _wantsInteractiveStart = true
         case .changed:
+            animator!.pauseAnimation()
             NSLog("gestureRecognizer changed \(progress)")
             shouldCompleteTransition = progress > 0.5
             animator!.fractionComplete = progress
@@ -75,13 +76,21 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
 
     private func createAnimationIfItDoesNotExistYet(_ transitionContext: UIViewControllerContextTransitioning) {
         if animator == nil {
+            let greenVC = transitionContext.viewController(forKey: .from) as! ViewControllerGreen
+            let redNC = transitionContext.viewController(forKey: .to) as! UINavigationController
+            guard let redVC = (redNC.viewControllers.compactMap { $0 as? ViewControllerRed }.first) else { return }
+            let v = greenVC.greenView
+            transitionContext.containerView.addSubview(v)
+            v.constraints.forEach { $0.isActive = false }
+            v.translatesAutoresizingMaskIntoConstraints = true
             animator = UIViewPropertyAnimator(duration: 2, curve: .easeInOut) {
-                let greenVC = transitionContext.viewController(forKey: .from) as! ViewControllerGreen
-                greenVC.greenView.alpha = 0
+                v.frame = redVC.redView.frame
+                v.backgroundColor = redVC.redView.backgroundColor
             }
             animator!.addCompletion { [weak transitionContext] position in
                 let completed = (position == .end)
                 transitionContext?.completeTransition(completed)
+                v.removeFromSuperview()
             }
             animator!.startAnimation()
         }
