@@ -1,10 +1,3 @@
-//
-//  ViewUtils.swift
-//  Template
-//
-//  Created by Kristof Van Landschoot on 29/10/2020.
-//  Copyright © 2020 Ristkof. All rights reserved.
-//
 
 import UIKit
 

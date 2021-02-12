@@ -35,12 +35,7 @@ class ViewControllerRed: UIViewController {
     }
     
     override var prefersStatusBarHidden: Bool { false }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        NSLog("\(Self.description()) \(#function)")
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
+        
     @objc func actionAnimateToGreen() {
         let greenvc = ViewControllerGreen()
         greenvc.transitioningDelegate = self
@@ -52,13 +47,13 @@ class ViewControllerRed: UIViewController {
 
 extension ViewControllerRed: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        AnimationControllerPresentRedToGreen(redView)
+        AnimatedTransitioningControllerRedToGreen(redView)
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         NSLog("\(Self.description()) \(#function)")
         if let d = dismissed as? ViewControllerGreen {
-            return GreenToRedInterruptableController(d)
+            return InteractiveTransitioningControllerGreenToRed(d)
         }
         return nil
     }

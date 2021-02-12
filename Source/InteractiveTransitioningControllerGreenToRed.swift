@@ -1,15 +1,7 @@
-//
-//  InteractionController.swift
-//  Code Samples
-//
-//  Created by Kristof Van Landschoot on 03/02/2021.
-//  Copyright © 2021 Ristkof. All rights reserved.
-//
 
 import UIKit
 
-/// GreenToRedInterruptableController
-class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, UIViewControllerInteractiveTransitioning, UIViewControllerAnimatedTransitioning
+class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognizerDelegate, UIViewControllerInteractiveTransitioning, UIViewControllerAnimatedTransitioning
 {
     private var transitionContext: UIViewControllerContextTransitioning?
     private var animator: UIViewPropertyAnimator?
@@ -18,7 +10,6 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
     init(_ vc: ViewControllerGreen) {
         panGestureRecognizer = vc.panGestureRecognizer
         super.init()
-        panGestureRecognizer?.delegate = self
         panGestureRecognizer?.addTarget(self, action: #selector(handleGesture(_:)))
     }
     
@@ -26,16 +17,6 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
         NSLog("\(Self.description()) \(#function)")
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        NSLog("\(Self.description()) \(#function)")
-        return true
-    }
-    
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        NSLog("\(Self.description()) \(#function)")
-        return true
-    }
-
     @objc func handleGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
         NSLog("\(#function) \(gestureRecognizer.state)")
         let translation = gestureRecognizer.translation(in: gestureRecognizer.view!.superview!)
@@ -103,6 +84,5 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
         // I do not understand why this would be necessary, but it is:
         let redNC = transitionContext!.viewController(forKey: .to) as! UINavigationController
         redNC.setNeedsStatusBarAppearanceUpdate()
-        animator = nil
     }
 }
