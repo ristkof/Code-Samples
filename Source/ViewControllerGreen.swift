@@ -10,12 +10,11 @@ import UIKit
 import AVKit
 
 class ViewControllerGreen: UIViewController, UIGestureRecognizerDelegate {
-    
-    lazy var interactionController = GreenToRedInterruptableController(self)
+    lazy var panGestureRecognizer = UIPanGestureRecognizer()
     
     lazy var greenView = ViewUtils.prepare(UIView()) {
         $0.backgroundColor = .green
-        $0.addGestureRecognizer(self.interactionController.panGestureRecognizer)
+        $0.addGestureRecognizer(self.panGestureRecognizer)
         $0.isUserInteractionEnabled = true
     }
     
@@ -46,10 +45,11 @@ class ViewControllerGreen: UIViewController, UIGestureRecognizerDelegate {
         ])
         
         b.addTarget(self, action: #selector(actionDismiss), for: .touchUpInside)
+        panGestureRecognizer.addTarget(self, action: #selector(actionDismiss))
     }
     
     @objc func actionDismiss() {
-        dismiss(animated: true, completion: nil)
+        presentingViewController?.dismiss(animated: true, completion: nil)
     }
         
     override var prefersStatusBarHidden: Bool { true }

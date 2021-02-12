@@ -12,14 +12,14 @@ import UIKit
 class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, UIViewControllerInteractiveTransitioning, UIViewControllerAnimatedTransitioning
 {
     private var transitionContext: UIViewControllerContextTransitioning?
-    private weak var viewController: UIViewController?
     private var animator: UIViewPropertyAnimator?
-    lazy var panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handleGesture(_:)))
+    weak var panGestureRecognizer: UIPanGestureRecognizer?
 
-    init(_ vc: UIViewController) {
-        viewController = vc
+    init(_ vc: ViewControllerGreen) {
+        panGestureRecognizer = vc.panGestureRecognizer
         super.init()
-        panGestureRecognizer.delegate = self
+        panGestureRecognizer?.delegate = self
+        panGestureRecognizer?.addTarget(self, action: #selector(handleGesture(_:)))
     }
     
     deinit {
@@ -45,7 +45,6 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
         switch gestureRecognizer.state {
         case .began:
             NSLog("gestureRecognizer began")
-            viewController?.dismiss(animated: true, completion: nil)
         case .changed:
             animator!.pauseAnimation()
             NSLog("gestureRecognizer changed \(progress)")
@@ -55,7 +54,6 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
             transitionContext!.cancelInteractiveTransition()
         case .ended:
             animator!.continueAnimation(withTimingParameters: nil, durationFactor: 0)
-            transitionContext!.finishInteractiveTransition()
             NSLog("gestureRecognizer ended")
         default:
             break
@@ -87,8 +85,8 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
             v.backgroundColor = redVC.redView.backgroundColor
         }
         animator!.addCompletion { position in
-            let completed = (position == .end)
-            transitionContext.completeTransition(completed)
+            transitionContext.finishInteractiveTransition()
+            transitionContext.completeTransition(true)
             v.removeFromSuperview()
         }
         animator!.startAnimation()
@@ -98,5 +96,13 @@ class GreenToRedInterruptableController: NSObject, UIGestureRecognizerDelegate, 
     func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
         NSLog("\(Self.description()) \(#function)")
         do {}   // nothing to do here
+    }
+    
+    func animationEnded(_ transitionCompleted: Bool) {
+        NSLog("\(Self.description()) \(#function)")
+        // I do not understand why this would be necessary, but it is:
+        let redNC = transitionContext!.viewController(forKey: .to) as! UINavigationController
+        redNC.setNeedsStatusBarAppearanceUpdate()
+        animator = nil
     }
 }
