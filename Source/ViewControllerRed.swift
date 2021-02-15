@@ -9,7 +9,7 @@ class ViewControllerRed: UIViewController {
 
     override func viewDidLoad() {
         view.backgroundColor = .yellow
-        
+        title = "\(Self.description())"
         view.addSubview(redView)
         
         let b = ViewUtils.prepare(UIButton()) {
@@ -32,6 +32,7 @@ class ViewControllerRed: UIViewController {
 
         
         super.viewDidLoad()
+        navigationController!.delegate = self
     }
     
     override var prefersStatusBarHidden: Bool { false }
@@ -42,14 +43,20 @@ class ViewControllerRed: UIViewController {
         greenvc.modalPresentationStyle = .custom
         greenvc.modalPresentationCapturesStatusBarAppearance = true
         present(greenvc, animated: true, completion: nil)
+        //show(greenvc, sender: self)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 }
 
 extension ViewControllerRed: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        AnimatedTransitioningControllerRedToGreen(redView)
+        NSLog("\(Self.description()) \(#function)")
+        return AnimatedTransitioningControllerRedToGreen(redView)
     }
-
+    
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         NSLog("\(Self.description()) \(#function)")
         if let d = dismissed as? ViewControllerGreen {
@@ -61,5 +68,31 @@ extension ViewControllerRed: UIViewControllerTransitioningDelegate {
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         NSLog("\(Self.description()) \(#function)")
         return animator as? UIViewControllerInteractiveTransitioning
+    }
+}
+
+extension ViewControllerRed: UINavigationControllerDelegate {
+    internal func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        // even though we present from ViewControllerRed, we still get the from as a UINavigationController
+        NSLog("\(Self.description()) \(#function)")
+        if fromVC is ViewControllerRed {
+            return AnimatedTransitioningControllerRedToGreen(redView)
+        } else if let gvc = fromVC as? ViewControllerGreen {
+            return InteractiveTransitioningControllerGreenToRed(gvc)
+        }
+        return nil
+    }
+
+    func navigationController(
+        _ navigationController: UINavigationController,
+        interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        
+        NSLog("\(Self.description()) \(#function)")
+        // Return ourselves as the interaction controller for the pending transition
+        return animationController as? UIViewControllerInteractiveTransitioning
     }
 }

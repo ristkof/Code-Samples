@@ -55,13 +55,20 @@ class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognize
         NSLog("\(Self.description()) \(#function)")
         self.transitionContext = transitionContext
         let greenVC = transitionContext.viewController(forKey: .from) as! ViewControllerGreen
-        let redNC = transitionContext.viewController(forKey: .to) as! UINavigationController
-        let redVC = redNC.viewControllers.compactMap { $0 as? ViewControllerRed }.first!
+        
+        let redVC: ViewControllerRed
+        if let redNC = transitionContext.viewController(forKey: .to) as? UINavigationController {
+            redVC = redNC.viewControllers.compactMap { $0 as? ViewControllerRed }.first!
+        } else {
+            redVC = transitionContext.viewController(forKey: .to) as! ViewControllerRed
+        }
+        
         let v = greenVC.greenView
         transitionContext.containerView.addSubview(v)
         v.constraints.forEach { $0.isActive = false }
         v.translatesAutoresizingMaskIntoConstraints = true
-        animator = UIViewPropertyAnimator(duration: 2, curve: .easeInOut) {
+        let duration = transitionDuration(using: transitionContext)
+        animator = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
             v.frame = redVC.redView.frame
             v.backgroundColor = redVC.redView.backgroundColor
         }
@@ -69,6 +76,7 @@ class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognize
             transitionContext.finishInteractiveTransition()
             transitionContext.completeTransition(true)
             v.removeFromSuperview()
+            transitionContext.containerView.addSubview(redVC.view)
         }
         animator!.startAnimation()
         return animator!
@@ -82,7 +90,8 @@ class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognize
     func animationEnded(_ transitionCompleted: Bool) {
         NSLog("\(Self.description()) \(#function)")
         // I do not understand why this would be necessary, but it is:
-        let redNC = transitionContext!.viewController(forKey: .to) as! UINavigationController
-        redNC.setNeedsStatusBarAppearanceUpdate()
+        if let redNC = transitionContext!.viewController(forKey: .to) as? UINavigationController {
+            redNC.setNeedsStatusBarAppearanceUpdate()
+        }
     }
 }

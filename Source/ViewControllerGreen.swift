@@ -17,7 +17,8 @@ class ViewControllerGreen: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         view.backgroundColor = .yellow
-        
+        title = "\(Self.description())"
+
         view.addSubview(greenView)
         
         let b = ViewUtils.prepare(UIButton()) {
@@ -43,8 +44,14 @@ class ViewControllerGreen: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func actionDismiss() {
         presentingViewController?.dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
         
     override var prefersStatusBarHidden: Bool { true }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
 //    override var preferredStatusBarStyle: UIStatusBarStyle { .darkContent }
 }

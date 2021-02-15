@@ -14,9 +14,6 @@ class AnimatedTransitioningControllerRedToGreen: NSObject & UIViewControllerAnim
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
-
-        // even though we present from ViewControllerRed, we still get the from as a UINavigationController
-        assert(transitionContext.viewController(forKey: .from) is UINavigationController)
         
         let toVC = transitionContext.viewController(forKey: .to) as! ViewControllerGreen
 
