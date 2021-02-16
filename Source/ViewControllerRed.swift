@@ -77,7 +77,6 @@ extension ViewControllerRed: UINavigationControllerDelegate {
         animationControllerFor operation: UINavigationController.Operation,
         from fromVC: UIViewController,
         to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        // even though we present from ViewControllerRed, we still get the from as a UINavigationController
         NSLog("\(Self.description()) \(#function)")
         if fromVC is ViewControllerRed {
             return AnimatedTransitioningControllerRedToGreen(redView)
