@@ -39,12 +39,15 @@ class ViewControllerGreen: UIViewController, UIGestureRecognizerDelegate {
         ])
         
         b.addTarget(self, action: #selector(actionDismiss), for: .touchUpInside)
-        panGestureRecognizer.addTarget(self, action: #selector(actionDismiss))
+        panGestureRecognizer.addTarget(self, action: #selector(actionDismiss(_:)))
     }
     
-    @objc func actionDismiss() {
-        presentingViewController?.dismiss(animated: true, completion: nil)
-        navigationController?.popViewController(animated: true)
+    @objc func actionDismiss(_ pgr: UIPanGestureRecognizer) {
+        NSLog("\(Self.description()) \(#function) - state \(pgr.state)")
+        if pgr.state == .began {
+            presentingViewController?.dismiss(animated: true, completion: nil)
+            navigationController?.popViewController(animated: true)
+        }
     }
         
     override var prefersStatusBarHidden: Bool { true }

@@ -30,10 +30,15 @@ class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognize
             animator!.pauseAnimation()
             NSLog("gestureRecognizer changed \(progress)")
             animator!.fractionComplete = progress
+            transitionContext!.updateInteractiveTransition(progress)
         case .cancelled:
             NSLog("gestureRecognizer cancelled")
-            transitionContext!.cancelInteractiveTransition()
+            fatalError("This is never called?")
         case .ended:
+            let v = gestureRecognizer.velocity(in: gestureRecognizer.view)
+            if v.y < 0 {
+                animator!.isReversed = true
+            }
             animator!.continueAnimation(withTimingParameters: nil, durationFactor: 0)
             NSLog("gestureRecognizer ended")
         default:
@@ -73,10 +78,15 @@ class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognize
             v.backgroundColor = redVC.redView.backgroundColor
         }
         animator!.addCompletion { position in
-            transitionContext.finishInteractiveTransition()
-            transitionContext.completeTransition(true)
-            v.removeFromSuperview()
-            transitionContext.containerView.addSubview(redVC.view)
+            if position == .start {
+                transitionContext.cancelInteractiveTransition()
+                transitionContext.completeTransition(false)
+            } else {
+                transitionContext.finishInteractiveTransition()
+                transitionContext.completeTransition(true)
+                v.removeFromSuperview()
+                transitionContext.containerView.addSubview(redVC.view)
+            }
         }
         animator!.startAnimation()
         return animator!
