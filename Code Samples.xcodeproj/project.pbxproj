@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		6D13EC2B25CAE76300383E4F /* InteractiveTransitioningControllerGreenToRed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D13EC2A25CAE76300383E4F /* InteractiveTransitioningControllerGreenToRed.swift */; };
+		6DAD2D4B25DBEAD40023ECCB /* ViewControllerBlue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAD2D4A25DBEAD40023ECCB /* ViewControllerBlue.swift */; };
+		6DAD2D4F25DBF5410023ECCB /* UIGestureRecognizerState+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAD2D4E25DBF5410023ECCB /* UIGestureRecognizerState+Extensions.swift */; };
+		6DAD2D5225DBFB580023ECCB /* InteractiveTransitioningControllerBlueToRed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAD2D5125DBFB580023ECCB /* InteractiveTransitioningControllerBlueToRed.swift */; };
 		6DBF05B82450A60B00F6B349 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF05B72450A60B00F6B349 /* AppDelegate.swift */; };
 		6DBF05BA2450A60B00F6B349 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF05B92450A60B00F6B349 /* SceneDelegate.swift */; };
 		6DBF05BC2450A60B00F6B349 /* ViewControllerRed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBF05BB2450A60B00F6B349 /* ViewControllerRed.swift */; };
@@ -21,6 +24,9 @@
 
 /* Begin PBXFileReference section */
 		6D13EC2A25CAE76300383E4F /* InteractiveTransitioningControllerGreenToRed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveTransitioningControllerGreenToRed.swift; sourceTree = "<group>"; };
+		6DAD2D4A25DBEAD40023ECCB /* ViewControllerBlue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerBlue.swift; sourceTree = "<group>"; };
+		6DAD2D4E25DBF5410023ECCB /* UIGestureRecognizerState+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizerState+Extensions.swift"; sourceTree = "<group>"; };
+		6DAD2D5125DBFB580023ECCB /* InteractiveTransitioningControllerBlueToRed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveTransitioningControllerBlueToRed.swift; sourceTree = "<group>"; };
 		6DBF05B42450A60B00F6B349 /* Code Samples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Code Samples.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DBF05B72450A60B00F6B349 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DBF05B92450A60B00F6B349 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,8 +79,11 @@
 				6DF3F35E254AC4A100B81AB4 /* ViewUtils.swift */,
 				6DBF05BB2450A60B00F6B349 /* ViewControllerRed.swift */,
 				6DF3F364254ACDDA00B81AB4 /* ViewControllerGreen.swift */,
+				6DAD2D4A25DBEAD40023ECCB /* ViewControllerBlue.swift */,
 				6DF3F36A254AD1B300B81AB4 /* AnimationControllerPresentRedToGreen.swift */,
+				6DAD2D5125DBFB580023ECCB /* InteractiveTransitioningControllerBlueToRed.swift */,
 				6D13EC2A25CAE76300383E4F /* InteractiveTransitioningControllerGreenToRed.swift */,
+				6DAD2D4E25DBF5410023ECCB /* UIGestureRecognizerState+Extensions.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -150,13 +159,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DF3F365254ACDDA00B81AB4 /* ViewControllerGreen.swift in Sources */,
+				6DAD2D4F25DBF5410023ECCB /* UIGestureRecognizerState+Extensions.swift in Sources */,
 				6DBF05BC2450A60B00F6B349 /* ViewControllerRed.swift in Sources */,
+				6DAD2D4B25DBEAD40023ECCB /* ViewControllerBlue.swift in Sources */,
 				6D13EC2B25CAE76300383E4F /* InteractiveTransitioningControllerGreenToRed.swift in Sources */,
 				6DBF05B82450A60B00F6B349 /* AppDelegate.swift in Sources */,
 				6DF3F35F254AC4A100B81AB4 /* ViewUtils.swift in Sources */,
 				6DF3F362254AC5AF00B81AB4 /* NSLayoutConstraint+Extensions.swift in Sources */,
 				6DF3F36B254AD1B300B81AB4 /* AnimationControllerPresentRedToGreen.swift in Sources */,
 				6DBF05BA2450A60B00F6B349 /* SceneDelegate.swift in Sources */,
+				6DAD2D5225DBFB580023ECCB /* InteractiveTransitioningControllerBlueToRed.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

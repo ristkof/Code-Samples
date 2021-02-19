@@ -15,7 +15,7 @@ class ViewControllerRed: UIViewController {
         let b = ViewUtils.prepare(UIButton()) {
             $0.setTitle("Animate!", for: .normal)
             $0.setTitleColor(.darkText, for: .normal)
-            $0.addTarget(self, action: #selector(self.actionAnimateToGreen), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.actionAnimateToBlue), for: .touchUpInside)
         }
         
         view.addSubview(b)
@@ -42,8 +42,13 @@ class ViewControllerRed: UIViewController {
         greenvc.transitioningDelegate = self
         greenvc.modalPresentationStyle = .custom
         greenvc.modalPresentationCapturesStatusBarAppearance = true
-        present(greenvc, animated: true, completion: nil)
-        //show(greenvc, sender: self)
+        //present(greenvc, animated: true, completion: nil)
+        show(greenvc, sender: self)
+    }
+    
+    @objc func actionAnimateToBlue() {
+        let bluevc = ViewControllerBlue()
+        show(bluevc, sender: self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +59,9 @@ class ViewControllerRed: UIViewController {
 extension ViewControllerRed: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         NSLog("\(Self.description()) \(#function)")
+        guard presented is ViewControllerGreen else { return nil }
+        guard presenting is ViewControllerRed || presenting is UINavigationController
+            else { return nil }
         return AnimatedTransitioningControllerRedToGreen(redView)
     }
     
@@ -78,10 +86,12 @@ extension ViewControllerRed: UINavigationControllerDelegate {
         from fromVC: UIViewController,
         to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         NSLog("\(Self.description()) \(#function)")
-        if fromVC is ViewControllerRed {
+        if fromVC is ViewControllerRed && toVC is ViewControllerGreen {
             return AnimatedTransitioningControllerRedToGreen(redView)
         } else if let gvc = fromVC as? ViewControllerGreen {
             return InteractiveTransitioningControllerGreenToRed(gvc)
+        } else if let bvc = fromVC as? ViewControllerBlue {
+            return InteractiveTransitioningControllerBlueToRed(bvc)
         }
         return nil
     }
