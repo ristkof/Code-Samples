@@ -43,7 +43,7 @@ class ViewControllerGreen: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func actionDismiss(_ pgr: UIPanGestureRecognizer) {
-        NSLog("\(Self.description()) \(#function) - state \(pgr.state)")
+        NSLog("\(Self.description()) \(#function) - state \(pgr.state.description)")
         if pgr.state == .began {
             presentingViewController?.dismiss(animated: true, completion: nil)
             navigationController?.popViewController(animated: true)
@@ -53,7 +53,7 @@ class ViewControllerGreen: UIViewController, UIGestureRecognizerDelegate {
     override var prefersStatusBarHidden: Bool { true }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+//        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
 //    override var preferredStatusBarStyle: UIStatusBarStyle { .darkContent }

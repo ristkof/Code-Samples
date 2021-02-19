@@ -26,18 +26,25 @@ class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognize
         switch gestureRecognizer.state {
         case .began:
             NSLog("gestureRecognizer began")
+            initiallyInteractive = true
         case .changed:
             animator!.pauseAnimation()
             NSLog("gestureRecognizer changed \(progress)")
+            transitionContext!.pauseInteractiveTransition()
             animator!.fractionComplete = progress
             transitionContext!.updateInteractiveTransition(progress)
         case .cancelled:
             NSLog("gestureRecognizer cancelled")
             fatalError("This is never called?")
         case .ended:
-            let v = gestureRecognizer.velocity(in: gestureRecognizer.view)
-            if v.y < 0 {
-                animator!.isReversed = true
+            if transitionContext!.isInteractive {
+                let v = gestureRecognizer.velocity(in: gestureRecognizer.view)
+                if v.y < 0 {
+                    animator!.isReversed = true
+                    transitionContext!.cancelInteractiveTransition()
+                } else {
+                    transitionContext!.finishInteractiveTransition()
+                }
             }
             animator!.continueAnimation(withTimingParameters: nil, durationFactor: 0)
             NSLog("gestureRecognizer ended")
@@ -59,6 +66,11 @@ class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognize
     func interruptibleAnimator(using transitionContext: UIViewControllerContextTransitioning) -> UIViewImplicitlyAnimating {
         NSLog("\(Self.description()) \(#function)")
         self.transitionContext = transitionContext
+        // this can be called multiple times for the same operation
+        if let a = animator {
+            return a
+        }
+        NSLog(" creating animator")
         let greenVC = transitionContext.viewController(forKey: .from) as! ViewControllerGreen
         
         let redVC: ViewControllerRed
@@ -78,11 +90,13 @@ class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognize
             v.backgroundColor = redVC.redView.backgroundColor
         }
         animator!.addCompletion { position in
+            NSLog("animation completed at \(position)")
+            self.initiallyInteractive = false
             if position == .start {
-                transitionContext.cancelInteractiveTransition()
+                NSLog("  cancelling")
                 transitionContext.completeTransition(false)
             } else {
-                transitionContext.finishInteractiveTransition()
+                NSLog("  finishing")
                 transitionContext.completeTransition(true)
                 v.removeFromSuperview()
                 transitionContext.containerView.addSubview(redVC.view)
@@ -93,8 +107,11 @@ class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognize
     }
 
     func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
-        NSLog("\(Self.description()) \(#function)")
-        do {}   // nothing to do here
+        NSLog("\(Self.description()) \(#function) interactive \(transitionContext.isInteractive)")
+        if !transitionContext.isInteractive {
+            let a = interruptibleAnimator(using: transitionContext)
+            a.continueAnimation?(withTimingParameters: nil, durationFactor: 0)
+        }
     }
     
     func animationEnded(_ transitionCompleted: Bool) {
@@ -103,5 +120,11 @@ class InteractiveTransitioningControllerGreenToRed: NSObject, UIGestureRecognize
         if let redNC = transitionContext!.viewController(forKey: .to) as? UINavigationController {
             redNC.setNeedsStatusBarAppearanceUpdate()
         }
+    }
+    
+    var initiallyInteractive = false
+
+    var wantsInteractiveStart: Bool {
+        initiallyInteractive
     }
 }
