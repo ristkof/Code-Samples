@@ -32,20 +32,28 @@ class InteractiveTransitioningControllerBlueToRed: NSObject, UIGestureRecognizer
         case .began:
             initiallyInteractive = true
         case .changed:
-            animator!.pauseAnimation()
-            NSLog("gestureRecognizer changed \(progress)")
-            transitionContext!.pauseInteractiveTransition()
-            animator!.fractionComplete = progress
-            transitionContext!.updateInteractiveTransition(progress)
+            if offset.y <= 0 {
+                animator!.isReversed = true
+                transitionContext!.cancelInteractiveTransition()
+                animator!.continueAnimation(withTimingParameters: nil, durationFactor: 0.0000001)
+            } else {
+                animator!.pauseAnimation()
+                NSLog("gestureRecognizer changed \(progress)")
+                transitionContext!.pauseInteractiveTransition()
+                animator!.fractionComplete = progress
+                transitionContext!.updateInteractiveTransition(progress)
+            }
         case .ended:
-            if transitionContext!.isInteractive {
-                if progress > 0.3 {
-                    transitionContext!.finishInteractiveTransition()
-                } else {
-                    animator!.isReversed = true
-                    transitionContext!.cancelInteractiveTransition()
+            if !transitionContext!.transitionWasCancelled {
+                if transitionContext!.isInteractive {
+                    if progress > 0.3 {
+                        transitionContext!.finishInteractiveTransition()
+                    } else {
+                        animator!.isReversed = true
+                        transitionContext!.cancelInteractiveTransition()
+                    }
+                    animator!.continueAnimation(withTimingParameters: nil, durationFactor: 0)
                 }
-                animator!.continueAnimation(withTimingParameters: nil, durationFactor: 0)
             }
         default:
             break
